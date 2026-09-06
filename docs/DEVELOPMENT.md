@@ -114,7 +114,7 @@ naver-mail-test/
 
 `source.path`는 `.agents/plugins/`가 아니라 마켓플레이스 루트 기준입니다. 이 루트를 지원되는 Codex CLI에서 `codex plugin marketplace add <절대 경로>`로 등록하고, 데스크톱 앱을 재시작한 뒤 플러그인 목록에서 설치해 새 작업으로 검사합니다. 기존 개인 마켓플레이스를 수정할 때는 다른 항목을 덮어쓰지 말고 플러그인 생성 도구로 병합합니다.
 
-이 저장소 자체에는 곧바로 설치할 수 있는 GitHub 마켓플레이스 목록을 넣지 않습니다. Git 소스에는 OS별 런타임과 실행 파일이 없기 때문입니다. 조직의 마켓플레이스 자동 동기화와 OpenAI 공개 디렉터리 등록은 준비된 패키지 배포와 별도의 작업입니다. [공식 패키징 문서](https://developers.openai.com/plugins/build/plugins)를 기준으로 호스트 버전별 지원을 확인하세요.
+이 저장소의 Git 소스에는 OS별 런타임과 실행 파일이 없으므로, 저장소 URL을 마켓플레이스에 바로 연결하면 설치는 되어도 실행할 수 없는 폴더가 될 수 있습니다. 사용자에게는 [GitHub 주소 설치 지침](INSTALL_FROM_GITHUB.md)에 따라 최신 Release 운영 패키지를 내려받아 등록하는 흐름을 제공합니다. 개발자·관리자가 GitHub 마켓플레이스를 구성할 때도 `source.path`가 가리키는 위치에 완성된 Release 폴더를 넣어야 합니다. 조직의 마켓플레이스 자동 동기화와 OpenAI 공개 디렉터리 등록은 준비된 패키지 배포와 별도의 작업입니다. [공식 패키징 문서](https://developers.openai.com/plugins/build/plugins)를 기준으로 호스트 버전별 지원을 확인하세요.
 
 ## 설정과 환경변수
 
