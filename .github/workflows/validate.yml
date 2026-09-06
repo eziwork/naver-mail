@@ -1,0 +1,40 @@
+name: Desktop validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, macos-15-intel, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.98.1 --profile minimal
+      - run: rustup default 1.98.1
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npm run build:native
+      - run: npm run prepare:runtime
+      - run: npm run smoke
+      - run: node scripts/lifecycle-test.mjs --real-idle
+      - name: Repeated idle and bundled runtime validation
+        run: node scripts/benchmark.mjs --bundled --real-idle
+        env:
+          NAVER_MAIL_BENCHMARK_OUTPUT: benchmark.json
+      - run: npm run package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: naver-mail-${{ runner.os }}-${{ runner.arch }}-unsigned
+          path: |
+            releases/*
+            benchmark.json

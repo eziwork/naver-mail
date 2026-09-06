@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Naver Mail connector</title>
+  <desc id="desc">NAVER green rounded square with a simple white envelope. This is not the NAVER logo.</desc>
+  <rect width="512" height="512" rx="112" fill="#03C75A"/>
+  <rect x="88" y="137" width="336" height="238" rx="44" fill="#FFFFFF"/>
+  <path d="M113 170 237 273c11 9 27 9 38 0l124-103" fill="none" stroke="#03C75A" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

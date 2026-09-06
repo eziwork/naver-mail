@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "platform": "win32",
+  "arch": "x64",
+  "version": "0.2.0",
+  "date": "2026-09-06T08:05:36.776Z",
+  "idleMs": 30000,
+  "runtime": "bundled",
+  "connections": 1,
+  "initializeMs": 109,
+  "coldMs": [
+    1081,
+    995,
+    921,
+    1305,
+    1025
+  ],
+  "samples": [
+    {
+      "phase": "discovery",
+      "WorkingSet64": 6705152,
+      "PrivateMemorySize64": 1347584
+    },
+    {
+      "phase": "idle-cycle-1",
+      "WorkingSet64": 7835648,
+      "PrivateMemorySize64": 1232896
+    },
+    {
+      "phase": "idle-cycle-2",
+      "WorkingSet64": 7839744,
+      "PrivateMemorySize64": 1232896
+    },
+    {
+      "phase": "idle-cycle-3",
+      "WorkingSet64": 7913472,
+      "PrivateMemorySize64": 1318912
+    },
+    {
+      "phase": "idle-cycle-4",
+      "WorkingSet64": 7929856,
+      "PrivateMemorySize64": 1318912
+    },
+    {
+      "phase": "idle-cycle-5",
+      "WorkingSet64": 7897088,
+      "PrivateMemorySize64": 1245184
+    }
+  ],
+  "maximumIdleMiB": 7.5625,
+  "idleNodeCount": 0
+}

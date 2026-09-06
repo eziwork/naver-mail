@@ -1,0 +1,16 @@
+import { spawnSync } from 'node:child_process';
+import { copyFile, mkdir, chmod } from 'node:fs/promises';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=dirname(dirname(fileURLToPath(import.meta.url)));
+const cargo=process.env.CARGO_HOME?join(process.env.CARGO_HOME,'bin',process.platform==='win32'?'cargo.exe':'cargo'):'cargo';
+const target=process.env.NAVER_MAIL_BUILD_TARGET;
+const args=['build','--release','--locked','--manifest-path',join(root,'native','Cargo.toml'),...(target?['--target',target]:[])];
+const result=spawnSync(cargo,args,{cwd:root,stdio:'inherit',windowsHide:true});
+if(result.error)throw result.error;if(result.status!==0)process.exit(result.status??1);
+const windows=target?target.includes('windows'):process.platform==='win32';
+const filename=windows?'naver-mail-bridge.exe':'naver-mail-bridge';
+const buildRoot=process.env.CARGO_TARGET_DIR?resolve(process.env.CARGO_TARGET_DIR):join(root,'native','target');
+const source=join(buildRoot,...(target?[target]:[]),'release',filename);
+await mkdir(join(root,'bin'),{recursive:true});await copyFile(source,join(root,'bin',filename));
+if(!windows)await chmod(join(root,'bin',filename),0o755);

@@ -1,0 +1,41 @@
+{
+  "name": "@eziwork/naver-mail-codex-plugin",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Local-first Naver Mail MCP server for Codex",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ./scripts/generate-catalog.mjs",
+    "build:native": "node ./scripts/build-native.mjs",
+    "clean": "node ./scripts/clean.mjs",
+    "start": "./bin/naver-mail-bridge",
+    "test": "node --import tsx --test ./test/**/*.test.ts",
+    "test:singleton": "node ./scripts/lifecycle-test.mjs",
+    "benchmark": "node ./scripts/benchmark.mjs",
+    "test:keyring": "node ./scripts/keyring-self-test.mjs",
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "smoke": "node ./scripts/smoke-test.mjs",
+    "prepare:runtime": "node ./scripts/prepare-runtime.mjs",
+    "package": "node ./scripts/package.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@napi-rs/keyring": "2.0.0",
+    "html-to-text": "10.0.1",
+    "iconv-lite": "0.7.3",
+    "imapflow": "1.7.6",
+    "nodemailer": "9.0.6",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/html-to-text": "9.0.4",
+    "@types/node": "24.3.0",
+    "@types/nodemailer": "7.0.1",
+    "tar": "7.5.22",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
+  }
+}

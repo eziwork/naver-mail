@@ -1,0 +1,41 @@
+{
+  "name": "naver-mail",
+  "version": "0.2.0",
+  "description": "Local Naver Mail connector with an on-demand worker for Windows and macOS",
+  "author": {
+    "name": "Eziwork"
+  },
+  "keywords": [
+    "naver",
+    "mail",
+    "email",
+    "imap",
+    "smtp",
+    "local-first"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "네이버 메일",
+    "shortDescription": "내 PC에서 안전하게 네이버 메일 조회·발송",
+    "longDescription": "NAVER 공식 제품이 아닌 Eziwork의 로컬 연결 도구입니다. 링크 숨김·발신 인증 표시·위험 첨부 차단·대화 확인 기반 발송을 지원합니다.",
+    "developerName": "Eziwork",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "네이버 받은메일함의 최근 중요 메일을 정리해줘.",
+      "지난달에 받은 계약 관련 메일을 찾아줘.",
+      "답장을 작성하고 전체 내용을 대화에서 확인받은 뒤 보내줘."
+    ],
+    "brandColor": "#03C75A",
+    "composerIcon": "./assets/logo.png",
+    "logo": "./assets/logo.png",
+    "logoDark": "./assets/logo.png"
+  },
+  "mcpServers": "./.mcp.json",
+  "homepage": "https://github.com/eziwork/naver-mail",
+  "repository": "https://github.com/eziwork/naver-mail"
+}
