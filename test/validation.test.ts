@@ -11,8 +11,11 @@ test("rejects a non-Naver account", () => {
   assert.throws(() => normalizeNaverEmail("user@example.com"), /@naver\.com/u);
 });
 
-test("sanitizes unsafe Windows filenames", () => {
+test("sanitizes incoming filenames consistently across platforms", () => {
   assert.equal(safeAttachmentFilename("..\\CON.txt", "file"), "_CON.txt");
+  assert.equal(safeAttachmentFilename("../CON.txt", "file"), "_CON.txt");
+  assert.equal(safeAttachmentFilename("C:\\downloads\\report.pdf", "file"), "report.pdf");
+  assert.equal(safeAttachmentFilename("/downloads/report.pdf", "file"), "report.pdf");
   assert.equal(safeAttachmentFilename("a<b>:c?.pdf", "file"), "a_b__c_.pdf");
 });
 

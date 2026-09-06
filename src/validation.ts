@@ -1,4 +1,4 @@
-import { extname, basename } from "node:path";
+import { extname, posix } from "node:path";
 import { z } from "zod/v4";
 import { LIMITS } from "./constants.js";
 import { UserFacingError } from "./errors.js";
@@ -57,7 +57,8 @@ export function toKstDate(value: string): Date {
 }
 
 export function safeAttachmentFilename(raw: string | undefined, fallback: string): string {
-  const source = basename(raw?.trim() || fallback)
+  // Attachment names come from other computers, so handle both path separators.
+  const source = posix.basename((raw?.trim() || fallback).replace(/\\/gu, "/"))
     .normalize("NFKC")
     .replace(/[\u0000-\u001f\u007f<>:"/\\|?*]/gu, "_")
     .replace(/[. ]+$/u, "")
