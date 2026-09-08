@@ -10,7 +10,7 @@ Eziwork가 만든 비공식 연결 도구이며 NAVER 공식 제품이 아닙니
 | --- | --- |
 | **[설치와 첫 연결 안내](docs/USER_GUIDE.md)** | **[동작 원리와 설계](docs/ARCHITECTURE.md)** |
 | [연결 오류 해결하기](docs/TROUBLESHOOTING.md) | [빌드·테스트·배포](docs/DEVELOPMENT.md) |
-| [설치 파일 받기](https://github.com/eziwork/naver-mail/releases/tag/v0.2.0) | [12개 MCP 도구 설명](docs/TOOLS.md) |
+| [설치 파일 받기](https://github.com/eziwork/naver-mail/releases) | [12개 MCP 도구 설명](docs/TOOLS.md) |
 | [버전별 변경 내용](CHANGELOG.md) | [검증 결과와 남은 작업](RELEASE.md) · [보안 경계](SECURITY.md) |
 
 ## 이런 일을 할 수 있습니다
@@ -35,7 +35,7 @@ https://github.com/eziwork/naver-mail
 이 플러그인을 설치해 줘.
 ```
 
-지원되는 호스트는 저장소의 최신 **Release**에서 현재 운영체제·CPU에 맞는 운영 패키지를 선택하고, `SHA256SUMS.txt` 또는 파일별 `.sha256`으로 검증한 뒤, 압축을 풀어 로컬 플러그인으로 등록합니다. 이 패키지에는 실행 파일·고정 Node 런타임·OS별 키링 모듈이 함께 있으므로 사용자가 Node, npm, Rust, 터미널을 설치하거나 실행할 필요가 없습니다. 설치가 끝나면 새 작업에서 **“네이버 메일 연결해 줘”**라고 입력하세요.
+설치를 맡은 AI는 **[설치 도우미 실행 지침](docs/INSTALL_FROM_GITHUB.md)**에 따라 공식 Release의 OS별 도우미와 체크섬을 확인한 뒤 실행합니다. 도우미가 사전 배포판을 포함한 목록에서 패키지를 선택하고 검증·등록합니다. 사용자가 Node·npm·Rust를 설치하거나 터미널 명령을 입력할 필요는 없습니다. 등록이 끝나면 새 작업에서 **“네이버 메일 연결해 줘”**라고 요청하세요. 도구가 새 작업에도 나타나지 않을 때만 앱을 다시 시작합니다.
 
 호스트가 GitHub 주소 설치를 지원하지 않는 경우에만 [설치와 첫 연결 안내](docs/USER_GUIDE.md)의 수동 대체 절차를 사용하세요. 초록색 **Code → Download ZIP**과 Releases의 **Source code**는 개발용 원본이며, 일반 설치에는 실행 파일과 런타임이 들어 있는 운영 패키지를 사용해야 합니다. GitHub에 코드를 공개하는 것과 OpenAI의 공식 플러그인 목록에 등록하는 것은 별도 절차입니다. Codex가 이 주소를 설치할 때 따라야 할 검사 순서는 [GitHub 주소 설치 지침](docs/INSTALL_FROM_GITHUB.md)에 정리되어 있습니다.
 
@@ -45,7 +45,7 @@ https://github.com/eziwork/naver-mail
 
 ## 지원 범위와 현재 배포 상태
 
-**0.2.0은 사전 배포판입니다.** Windows에서 실행과 네이버 인증을 검증했습니다. Mac용 패키지도 제공하지만 실제 Mac 앱 연결·키체인·첨부파일 보호 검증과 코드서명·공증은 남아 있습니다.
+**0.2.1은 설치와 Mac 최초 연결을 개선하는 사전 배포판입니다.** 공개된 파일은 Releases에서 확인하세요. Windows 배포 패키지와 설정 유지·복구를 자동 검사하며, 세 플랫폼 CI에서 같은 검사를 수행합니다. 팀원은 0.2.0에서 Mac 인증·키체인 저장 성공을 알려 주었습니다. 0.2.1의 실제 앱 종료 후 설정 유지·키체인·Safari 확인과 코드서명·공증은 별도 검증 항목입니다.
 
 | 환경 | 상태 |
 | --- | --- |

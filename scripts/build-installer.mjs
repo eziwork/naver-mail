@@ -1,0 +1,17 @@
+import {spawnSync} from 'node:child_process';
+import {copyFile, mkdir, chmod, writeFile, readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {join, resolve} from 'node:path';
+const target=process.env.NAVER_MAIL_BUILD_TARGET;
+const result=spawnSync('cargo',['build','--release','--locked','--manifest-path','installer/Cargo.toml',...(target?['--target',target]:[])],{stdio:'inherit',windowsHide:true});
+if(result.error)throw result.error;if(result.status!==0)process.exit(result.status??1);
+const platform=process.env.NAVER_MAIL_PACKAGE_PLATFORM??process.platform, arch=process.env.NAVER_MAIL_PACKAGE_ARCH??process.arch;
+const version=JSON.parse(await readFile('package.json','utf8')).version;
+const filename='naver-mail-install'+(platform==='win32'?'.exe':'');
+const buildRoot=process.env.CARGO_TARGET_DIR?resolve(process.env.CARGO_TARGET_DIR):resolve('installer/target');
+const output=resolve(process.env.NAVER_MAIL_RELEASE_DIR??'releases');await mkdir(output,{recursive:true});
+const name=`naver-mail-install-${version}-${platform}-${arch}${platform==='win32'?'.exe':''}`;
+await copyFile(join(buildRoot,...(target?[target]:[]),'release',filename),join(output,name));
+if(platform!=='win32')await chmod(join(output,name),0o755);
+await writeFile(join(output,name+'.sha256'),createHash('sha256').update(await readFile(join(output,name))).digest('hex')+'  '+name+'\n');
+console.log(JSON.stringify({installer:name,platform,arch,version}));

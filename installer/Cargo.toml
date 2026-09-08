@@ -1,0 +1,22 @@
+[package]
+name = "naver-mail-install"
+version = "0.2.1"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+serde_json = "1"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "native-tls"] }
+sha2 = "0.10"
+semver = "1"
+flate2 = "1"
+tar = "0.4"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+fs2 = "0.4"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

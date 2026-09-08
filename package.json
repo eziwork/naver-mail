@@ -1,6 +1,6 @@
 {
   "name": "@eziwork/naver-mail-codex-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Local-first Naver Mail MCP server for Codex",
   "type": "module",
@@ -19,7 +19,10 @@
     "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
     "smoke": "node ./scripts/smoke-test.mjs",
     "prepare:runtime": "node ./scripts/prepare-runtime.mjs",
-    "package": "node ./scripts/package.mjs"
+    "package": "node ./scripts/package.mjs",
+    "build:installer": "node scripts/build-installer.mjs",
+    "test:setup-lifecycle": "node scripts/setup-lifecycle-test.mjs",
+    "test:browser": "node scripts/setup-browser-test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
@@ -34,6 +37,7 @@
     "@types/html-to-text": "9.0.4",
     "@types/node": "24.3.0",
     "@types/nodemailer": "7.0.1",
+    "playwright": "1.62.1",
     "tar": "7.5.22",
     "tsx": "4.20.5",
     "typescript": "5.9.2"

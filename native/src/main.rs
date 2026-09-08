@@ -177,9 +177,35 @@ fn start_worker(root: &Path, dir: &Path, endpoint: &str) -> Result<(), Failure> 
         .env("NAVER_MAIL_RUNTIME_DIR",dir).env("NAVER_MAIL_PIPE",endpoint)
         .stdin(std::process::Stdio::null()).stdout(std::process::Stdio::null()).stderr(std::process::Stdio::null());
     #[cfg(windows)] { use std::os::windows::process::CommandExt; command.creation_flags(0x08000000); }
+    #[cfg(unix)] {
+        use std::os::unix::process::CommandExt;
+        // Only the async-signal-safe setsid syscall runs between fork and exec.
+        // The worker must survive closure of the MCP host's process group.
+        unsafe { command.pre_exec(|| {
+            if libc::setsid() == -1 { return Err(std::io::Error::last_os_error()); }
+            Ok(())
+        }); }
+    }
     let mut child=command.spawn()?;
-    std::thread::spawn(move || {let _=child.wait();});
+    let diagnostics=dir.to_path_buf();
+    lifecycle_record(&diagnostics,"worker_started",None);
+    std::thread::spawn(move || {
+        if let Ok(status)=child.wait() { lifecycle_record(&diagnostics,"worker_exited",status.code()); }
+    });
     Ok(())
+}
+
+fn lifecycle_record(dir: &Path, event: &str, code: Option<i32>) {
+    // Fixed fields only; never serialize command lines, URLs, accounts or errors.
+    let path=dir.join("lifecycle.jsonl");
+    if std::fs::symlink_metadata(&path).is_ok_and(|m|m.file_type().is_symlink()) {return;}
+    if std::fs::metadata(&path).is_ok_and(|m|m.len()>32_768) {let _=std::fs::remove_file(&path);}
+    let mut options=std::fs::OpenOptions::new(); options.create(true).append(true);
+    #[cfg(unix)] {use std::os::unix::fs::OpenOptionsExt; options.mode(0o600);}
+    if let Ok(mut file)=options.open(path) {
+        let time=std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|t|t.as_secs()).unwrap_or(0);
+        let _=writeln!(file,"{}",json!({"time":time,"event":event,"mode":if cfg!(unix){"independent-session"}else{"hidden-process"},"exitCode":code}));
+    }
 }
 
 async fn connect_worker(root: &Path) -> Result<Pipe, Failure> {

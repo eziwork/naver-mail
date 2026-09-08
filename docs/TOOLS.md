@@ -21,6 +21,8 @@
 | `send_plan_status` | `planId` | 준비 상태 `prepared` 또는 `expired` 확인 |
 | `send_mail` | `planId` | 사용자 확인 후 단 한 번 발송. 자동 재전송 금지 |
 
+`open_setup` 및 `connection_status.setup`에 추가된 `expiresAt`은 최초 생성 기준 만료 시각, `browserOpened`는 브라우저 실행 요청의 성공 여부, `pageOpened`는 실제 로컬 화면 접속 여부입니다. 브라우저 실행 성공만으로 사용자가 화면을 보았거나 연결을 완료했다고 판단하지 않습니다. `state:connected`와 조회·발송·저장 검사 결과를 확인하세요. 유효한 설정을 다시 열면 같은 만료 시각의 세션을 재사용합니다. 계정 연결만 완료한 경우 앱 재시작은 필요하지 않습니다.
+
 ## 검색에서 본문까지
 
 먼저 `list_mailboxes`의 `path`를 사용합니다. 네이버 표시 이름을 임의로 서버 경로라고 추정하지 않습니다. 검색 날짜는 `YYYY-MM-DD`, `since`는 그 날짜부터, `before`는 그 날짜 이전입니다. `readStatus`는 `any`, `read`, `unread`입니다.

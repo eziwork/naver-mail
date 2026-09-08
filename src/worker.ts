@@ -2,6 +2,7 @@ import { createServer, type Socket } from "node:net";
 import { chmod, readFile, writeFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { appendFileSync, lstatSync, unlinkSync } from "node:fs";
 import { SocketServerTransport } from "./socket-transport.js";
 import { createNaverMailRuntime, createNaverMailServer } from "./server.js";
 import { LIMITS, PLUGIN_VERSION } from "./constants.js";
@@ -12,6 +13,13 @@ if (!directory || !endpoint) throw new Error("Start the worker through the nativ
 const secret = (await readFile(join(directory, "ipc-secret"), "utf8")).trim();
 if (!/^[a-f0-9]{64}$/u.test(secret)) throw new Error("Invalid IPC secret.");
 const runtime = createNaverMailRuntime();
+function record(event: "worker_ready" | "idle_shutdown" | "SIGINT" | "SIGTERM" | "uncaught_exception"): void {
+  try {
+    const path=join(directory!,"worker-lifecycle.jsonl");
+    try { const meta=lstatSync(path);if(!meta.isFile()||meta.isSymbolicLink())return;if(meta.size>32_768)unlinkSync(path); } catch {}
+    appendFileSync(path,JSON.stringify({time:new Date().toISOString(),event,mode:"shared-worker"})+"\n",{mode:0o600});
+  } catch { /* Diagnostics must not affect mail operations. */ }
+}
 const sockets = new Set<Socket>();
 let lastActivity = Date.now();
 let shuttingDown = false;
@@ -33,12 +41,13 @@ const listener = createServer((socket) => {
 
 listener.once("error", () => process.exit(1));
 listener.listen(endpoint, () => {
+  record("worker_ready");
   if (process.platform !== "win32") void chmod(endpoint, 0o600);
   void writeFile(join(directory, "worker.json"), JSON.stringify({pid: process.pid, version: PLUGIN_VERSION}), {mode: 0o600});
 });
 const timer = setInterval(() => {
   if (runtime.pending || runtime.setup.isActive || runtime.sendPlans.activeCount) { lastActivity = Date.now(); return; }
-  if (Date.now() - lastActivity >= idleMs) void shutdown();
+  if (Date.now() - lastActivity >= idleMs) {record("idle_shutdown");void shutdown();}
 }, Math.min(1_000, Math.max(50, idleMs / 4)));
 
 async function shutdown(): Promise<void> {
@@ -84,5 +93,6 @@ function readLine(socket: Socket): Promise<Record<string, unknown>> {
     socket.on("data", data); socket.once("close", closed); socket.once("error", failed); socket.resume();
   });
 }
-process.once("SIGINT", () => void shutdown());
-process.once("SIGTERM", () => void shutdown());
+process.once("SIGINT", () => {record("SIGINT");void shutdown();});
+process.once("SIGTERM", () => {record("SIGTERM");void shutdown();});
+process.on("uncaughtExceptionMonitor", () => record("uncaught_exception"));

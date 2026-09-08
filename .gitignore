@@ -5,6 +5,7 @@ dist-tests/
 .DS_Store
 coverage/
 native/target/
+installer/target/
 .build-runtime/
 .build-package/
 runtime/

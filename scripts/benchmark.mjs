@@ -16,7 +16,7 @@ const env = {...process.env, NAVER_MAIL_TEST_ROOT: testRoot, NAVER_MAIL_TEST_IDL
 if (process.argv.includes('--bundled')) delete env.CODEX_MCP_NODE_PATH;
 else env.CODEX_MCP_NODE_PATH = process.execPath;
 const transport = new StdioClientTransport({command: join(root, 'bin', 'naver-mail-bridge'), args: [], cwd: root, stderr: 'pipe', env});
-const client = new Client({name: 'benchmark', version: '0.2.0'});
+const client = new Client({name: 'benchmark', version: '0.2.1'});
 const alive = pid => {try {process.kill(pid, 0); return true;} catch {return false;}};
 const workers = new Set();
 function memory(pid) {
@@ -44,11 +44,12 @@ try {
     assert.equal(alive(worker.pid), false);
     samples.push({phase: `idle-cycle-${cycle + 1}`, ...memory(transport.pid)});
   }
-  const report = {passed: true, platform: process.platform, arch: process.arch, version: '0.2.0', date: new Date().toISOString(), idleMs, runtime: process.argv.includes('--bundled') ? 'bundled' : 'host', connections: 1, initializeMs, coldMs, samples, maximumIdleMiB: Math.max(...samples.map(s => s.WorkingSet64)) / 1024 ** 2, idleNodeCount: 0};
-  assert.ok(report.maximumIdleMiB <= 20, `Idle memory exceeded 20 MiB: ${report.maximumIdleMiB}`);
-  assert.ok(Math.max(...coldMs) <= 3000, `Local worker startup exceeded 3 seconds: ${coldMs}`);
+  const report = {passed: true, platform: process.platform, arch: process.arch, version: '0.2.1', date: new Date().toISOString(), idleMs, runtime: process.argv.includes('--bundled') ? 'bundled' : 'host', connections: 1, initializeMs, coldMs, samples, maximumIdleMiB: Math.max(...samples.map(s => s.WorkingSet64)) / 1024 ** 2, idleNodeCount: 0};
+  report.passed=report.maximumIdleMiB<=20 && Math.max(...coldMs)<=3000;
   const output = process.env.NAVER_MAIL_BENCHMARK_OUTPUT;
   if (output) await writeFile(output, JSON.stringify(report, null, 2) + '\n');
+  assert.ok(report.maximumIdleMiB <= 20, `Idle memory exceeded 20 MiB: ${report.maximumIdleMiB}`);
+  assert.ok(Math.max(...coldMs) <= 3000, `Local worker startup exceeded 3 seconds: ${coldMs}`);
   console.log(JSON.stringify(report));
 } finally {
   await client.close();

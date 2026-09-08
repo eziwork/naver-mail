@@ -62,3 +62,29 @@ test("setup expires and releases its listener",async()=>{
   const setup=new SetupServer({save:async()=>{}},{openBrowser:async()=>false,ttlMs:30});
   const {url}=await setup.open();assert.ok(url);await delay(70);assert.equal(setup.isActive,false);assert.equal(setup.status()?.state,"expired");
 });
+
+test("reopening preserves deadline and reports page arrival independently of launcher",async()=>{
+  const setup=new SetupServer({save:async()=>{}},{openBrowser:async()=>true});
+  try {
+    const first=await setup.open();assert.ok(first.url);assert.equal(first.pageOpened,false);
+    await fetch(first.url);await delay(10);
+    const second=await setup.open();assert.equal(second.url,first.url);assert.equal(second.expiresAt,first.expiresAt);
+    assert.equal(second.pageOpened,true);assert.equal(setup.status()?.expiresAt,first.expiresAt);
+  }finally{await setup.close();}
+});
+test("completed setup reopens the same session during its grace period",async()=>{
+  const setup=new SetupServer({save:async()=>{}},{openBrowser:async()=>false,verify:async(_c,p)=>{p?.("imap");p?.("smtp");},completionGraceMs:1000});
+  try {
+    const first=await setup.open();assert.ok(first.url);await post(first.url);await poll(first.url);
+    const again=await setup.open();assert.equal(again.url,first.url);assert.equal(setup.status()?.state,"connected");
+  }finally{await setup.close();}
+});
+test("expiry during checking prevents saving even when verification later resolves",async()=>{
+  let writes=0,release!:()=>void;
+  const gate=new Promise<void>(r=>{release=r;});
+  const setup=new SetupServer({save:async()=>{writes++;}},{openBrowser:async()=>false,ttlMs:80,verify:async()=>gate});
+  try {
+    const {url}=await setup.open();assert.ok(url);await post(url);await delay(140);release();await delay(10);
+    assert.equal(writes,0);assert.equal(setup.isActive,false);assert.equal(setup.status()?.state,"expired");
+  }finally{release();await setup.close();}
+});

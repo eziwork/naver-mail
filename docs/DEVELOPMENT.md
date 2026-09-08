@@ -12,6 +12,7 @@
 skills/naver-mail/         호스트 AI가 따라야 하는 메일 작업 지침
 src/                      TypeScript 메일·설정 화면·공유 작업 프로세스
 native/                   Rust MCP 중계와 Cargo.lock
+installer/                설치할 때만 실행되는 Rust 도우미와 별도 Cargo.lock
 assets/                   연결 화면 리소스·아이콘·제3자 고지
 test/                     실제 메일 발송 없는 자동 테스트
 scripts/                  빌드·패키지·수명 주기·성능 검사
@@ -43,6 +44,7 @@ npm run check
 npm test
 npm run build
 npm run build:native
+npm run build:installer
 npm run prepare:runtime
 npm run smoke
 ```
@@ -58,6 +60,10 @@ npm run smoke
 | `npm run check` | 소스와 테스트의 TypeScript 타입 | 없음 |
 | `npm test` | 입력 검증, 만료·계정 바인딩, 첨부파일, 설정 서버, IMAP 묶음, SMTP 결과 등 | 없음. 대체 클라이언트 사용 |
 | `npm run smoke` | Rust MCP 초기화와 12개 도구 목록 | 없음 |
+| `cargo test --locked --manifest-path installer/Cargo.toml` | 배포판 선택·압축 보호·중단 후 복구 | 없음 |
+| `npm run test:setup-lifecycle` | 부모 종료 뒤 설정 서버 생존·재접속·같은 세션 재사용 | 없음. 합성 계정 저장소 사용 |
+| `npm run test:browser` | Chromium에서 새로고침·비밀번호 비저장·검사 상태·연결 끊김·화면 확대 | 없음. 합성 검사 사용 |
+| `node scripts/package-check.mjs` | 실제 배포 압축 해제·도우미의 패키지 검증·키링 모듈 로드·설정 수명 | 없음 |
 | `npm run test:singleton` | 두 중계의 공유 Node, 유휴 종료·재실행·강제 종료 복구 | 없음. 격리된 테스트 디렉터리 사용 |
 | `node scripts/lifecycle-test.mjs --real-idle` | 단축 타이머 대신 실제 30초 유휴 | 없음 |
 | `node scripts/benchmark.mjs --bundled --real-idle` | 동봉 런타임으로 5회 시작·종료·메모리 측정 | 없음 |
@@ -75,7 +81,7 @@ npm run smoke
 npm run package
 ```
 
-결과는 `releases/naver-mail-0.2.0-<platform>-<arch>.zip` 또는 `.tar.gz`와 `.sha256`입니다. 패키지에는 다음이 들어 있습니다.
+결과는 `releases/naver-mail-0.2.1-<platform>-<arch>.zip` 또는 `.tar.gz`와 `.sha256`입니다. 별도의 `npm run build:installer`는 실행 도우미와 체크섬을 만듭니다. 패키지에는 다음이 들어 있습니다.
 
 - 플러그인 manifest, MCP 설정, 스킬, 화면 자산, 사용자·개발 문서
 - 컴파일된 Node 작업 코드와 생성한 도구 목록
@@ -137,9 +143,11 @@ naver-mail-test/
 2. 변경한 스키마를 기준으로 도구 목록을 재생성하고 Rust를 다시 빌드합니다.
 3. 테스트·깨끗한 패키지 실행·플랫폼별 확인을 수행하고 [RELEASE.md](../RELEASE.md)에 실제 실행 범위를 기록합니다.
 4. 인증서가 준비되면 Windows Authenticode와 macOS Developer ID 서명·공증을 수행합니다. 서명 후 패키지와 체크섬을 다시 만듭니다.
-5. Git 태그와 소스 커밋을 연결하고 Releases에 OS별 패키지·체크섬·검증 상태를 올립니다. 미검증 또는 미서명 단계는 사전 배포판으로 표시합니다.
+5. [Publish prerelease](../.github/workflows/release.yml)를 수동 실행합니다. 세 OS의 검증·패키징이 모두 성공한 후 도우미 3개·패키지 3개·각 체크섬을 확인하여 초안 Release에 올리고 공개합니다. 기존 태그가 있으면 중단하며 v0.2.0을 변경하지 않습니다.
 
-0.2.0의 Mac 파일은 Windows에서 교차 빌드했습니다. 실제 배포용 재빌드는 Mac SDK를 사용하는 CI 또는 Mac 환경에서 수행합니다. Windows 교차 빌드의 상세 제한은 [배포 상태](../RELEASE.md)에 기록했습니다.
+0.2.0의 Mac 파일은 Windows에서 교차 빌드했습니다. 0.2.1은 Intel과 Apple Silicon Mac CI에서 각각 빌드합니다. 실제 앱 연결·키체인 UI·Safari·서명/공증 상태는 CI 성공과 별도로 [배포 상태](../RELEASE.md)에 기록합니다.
+
+설치 도우미는 `--dry-run --json`으로 배포판과 설치 대상을 조회하고 `--json`으로 설치합니다. `CODEX_CLI_PATH`는 앱에 동봉된 Codex CLI의 절대 경로를 지정할 때 사용합니다. 일반 설치에서 소스를 빌드하거나 임시 설정 서버를 실행하지 않습니다. 자세한 흐름은 [설치 도우미 개발 안내](../installer/README.md)를 참고하세요.
 
 ## 복구와 로그 취급
 

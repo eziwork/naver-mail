@@ -36,6 +36,8 @@ if (!repack) {
   if (dependencies.status !== 0) throw new Error('Production dependency install failed');
 }
 const keyring = platform === 'win32' ? `keyring-win32-${arch}-msvc` : `keyring-darwin-${arch}`;
+// npm command shims are not runtime dependencies; omit symlinks from distributable archives.
+await rm(join(plugin,'node_modules','.bin'),{recursive:true,force:true});
 await access(join(plugin, 'node_modules', '@napi-rs', keyring));
 await writeFile(join(plugin, 'BUILD.json'), JSON.stringify({version: pkg.version, target, generatedAt: new Date().toISOString(), validation: platform === process.platform && arch === process.arch ? 'native-package; see RELEASE.md for executed checks' : 'cross-compiled; execution not validated', signed: false}, null, 2) + '\n');
 const sums = [];

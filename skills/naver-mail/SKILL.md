@@ -9,6 +9,10 @@ Use the `naver_mail` local MCP server. All mailbox communication happens from th
 
 ## Connection
 
+After installation, use the registered MCP tools in a new task. Never create an ad hoc setup server through a shell session or keep a terminal command running to preserve setup. If the tools are absent, explain that the app must pick up the installed plugin; try a new task, and only then an app restart if needed. Connecting an account to an already available plugin does not itself require restarting the app.
+
+The settings worker runs independently of the MCP conversation. A valid session is reused without extending its original 30-minute deadline. Report `expiresAt` and distinguish `browserOpened` (launcher result) from `pageOpened` (local page was requested). If the user says they have already finished, check `connection_status` before asking them to repeat setup. A completed setup screen remains available briefly; account credentials persist after the screen closes.
+
 1. Call `connection_status` before the first mailbox operation in a thread.
 2. If no account is connected, call `open_setup` and ask the user to finish the local browser form.
 3. Never ask the user to paste an application password, Naver password, or any credential into the conversation.

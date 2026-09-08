@@ -16,7 +16,7 @@ const alive=pid=>{try{process.kill(pid,0);return true;}catch{return false;}};
 try{
   for(let i=0;i<2;i++){
     const transport=new StdioClientTransport({command:join(root,'bin','naver-mail-bridge'),args:[],cwd:root,stderr:'pipe',env:{...process.env,CODEX_MCP_NODE_PATH:process.execPath,NAVER_MAIL_TEST_ROOT:testRoot,NAVER_MAIL_TEST_IDLE_MS:String(idleMs)}});
-    const client=new Client({name:`lifecycle-${i}`,version:'0.2.0'});await client.connect(transport);clients.push({client,transport});
+    const client=new Client({name:`lifecycle-${i}`,version:'0.2.1'});await client.connect(transport);clients.push({client,transport});
   }
   const tools=await Promise.all(clients.map(({client})=>client.listTools()));
   assert.deepEqual(tools.map(t=>t.tools.length),[12,12]);assert.equal(await workerInfo(),null,'discovery must not start Node');

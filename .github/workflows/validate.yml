@@ -1,5 +1,5 @@
 name: Desktop validation
-on: [push, pull_request, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch, workflow_call]
 permissions:
   contents: read
 jobs:
@@ -24,15 +24,23 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run build:native
+      - run: cargo test --locked --manifest-path installer/Cargo.toml
+      - run: npm run build:installer
       - run: npm run prepare:runtime
       - run: npm run smoke
+      - run: npm run test:setup-lifecycle
+      - run: npx playwright install chromium
+      - run: npm run test:browser
       - run: node scripts/lifecycle-test.mjs --real-idle
       - name: Repeated idle and bundled runtime validation
         run: node scripts/benchmark.mjs --bundled --real-idle
         env:
           NAVER_MAIL_BENCHMARK_OUTPUT: benchmark.json
       - run: npm run package
+      - name: Validate extracted release package
+        run: node scripts/package-check.mjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: naver-mail-${{ runner.os }}-${{ runner.arch }}-unsigned
           path: |

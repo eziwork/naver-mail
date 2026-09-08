@@ -18,6 +18,9 @@ interface SetupState {
   checks: Record<Phase, Check>;
   account?: string;
   error?: PublicError;
+  expiresAt?: string;
+  browserOpened?: boolean;
+  pageOpened?: boolean;
 }
 interface Session {
   server: Server; token: string; url: string; port: number; expiresAt: number;
@@ -44,8 +47,8 @@ export class SetupServer {
   get isActive(): boolean { return this.active !== null; }
   status(): SetupState | undefined { return this.active?.state ?? this.lastState; }
 
-  async open(): Promise<{url?: string; expiresAt: string; browserOpened: boolean}> {
-    if (!this.active || this.active.expiresAt <= Date.now() || this.active.state.state === "connected" || (!this.active.busy && this.active.attempts >= LIMITS.setupAttempts)) {
+  async open(): Promise<{url?: string; expiresAt: string; browserOpened: boolean; pageOpened: boolean}> {
+    if (!this.active || this.active.expiresAt <= Date.now() || (!this.active.busy && this.active.attempts >= LIMITS.setupAttempts && this.active.state.state !== "connected")) {
       await this.close();
       const token=randomBytes(32).toString("base64url");
       const server=createServer((req,res)=>{void this.handle(req,res).catch(()=>{
@@ -58,12 +61,15 @@ export class SetupServer {
       const expiresAt=Date.now()+(this.options.ttlMs??LIMITS.setupTtlMs);
       const timer=setTimeout(()=>{if(this.active){this.active.state.state="expired";this.lastState=this.active.state;}void this.close();},Math.max(1,expiresAt-Date.now()));timer.unref();
       this.active={server,token,url:`http://127.0.0.1:${port}/setup/${token}`,port,expiresAt,attempts:0,busy:false,abort:new AbortController(),timer,state:initialState()};
+      this.active.state.expiresAt=new Date(expiresAt).toISOString();
+      this.active.state.pageOpened=false;
     }
     const session=this.active;
     const browserOpened=await (this.options.openBrowser??openBrowser)(session.url);
+    session.state.browserOpened=browserOpened;
     // A launcher can exit successfully even when the browser is hidden or blocked.
     // Keep a manual link available in both cases.
-    return {browserOpened,expiresAt:new Date(session.expiresAt).toISOString(),url:session.url};
+    return {browserOpened,pageOpened:session.state.pageOpened===true,expiresAt:new Date(session.expiresAt).toISOString(),url:session.url};
   }
 
   async close(): Promise<void> {
@@ -85,7 +91,7 @@ export class SetupServer {
     if(url.search||!(url.pathname===base||url.pathname.startsWith(base+"/"))){send(response,404,{error:{message:"연결 화면을 찾을 수 없습니다."}});return;}
     if(Date.now()>=session.expiresAt){send(response,410,{state:"expired"});return;}
     if(request.method==="GET") {
-      if(url.pathname===base){send(response,200,renderForm(base,"",session.expiresAt),"text/html; charset=utf-8");return;}
+      if(url.pathname===base){session.state.pageOpened=true;send(response,200,renderForm(base,"",session.expiresAt),"text/html; charset=utf-8");return;}
       if(url.pathname===`${base}/api/status`){send(response,200,session.state);return;}
       const asset=guideAssetForPath(url.pathname,base);
       if(asset){try{send(response,200,await readFile(asset.url),asset.type);}catch{send(response,404,{error:{message:"안내 파일을 불러오지 못했습니다."}});}return;}
@@ -108,10 +114,10 @@ export class SetupServer {
       form.delete("appPassword");
       if(appPassword.length<4||appPassword.length>256||/[\r\n\0]/u.test(appPassword))throw new UserFacingError("INVALID_APP_PASSWORD","올바른 애플리케이션 비밀번호를 입력해 주세요.");
       if(session.attempts>=LIMITS.setupAttempts)throw new UserFacingError("SETUP_ATTEMPTS_EXCEEDED","연결 시도 횟수를 초과했습니다. 앱에서 연결 화면을 다시 열어 주세요.");
-      session.attempts+=1;session.state=initialState();session.state.state="checking";
+      session.attempts+=1;session.state={...session.state,...initialState()};delete session.state.error;session.state.state="checking";
       void this.verify(session,{schema:1,email,appPassword});
       send(response,202,session.state);
-    }catch(error){session.busy=false;session.state={...initialState(),state:"failed",error:publicError(error)};send(response,400,session.state);}
+    }catch(error){session.busy=false;session.state={...session.state,...initialState(),state:"failed",error:publicError(error)};send(response,400,session.state);}
   }
 
   private async verify(session: Session, candidate: CredentialRecord): Promise<void> {
@@ -131,7 +137,7 @@ export class SetupServer {
       session.state.checks.storage="done";session.state.state="connected";session.state.account=maskEmail(candidate.email);
       this.lastState=session.state;
       clearTimeout(session.timer);
-      session.timer=setTimeout(()=>{if(this.active===session)void this.close();},this.options.completionGraceMs??15_000);session.timer.unref();
+      session.timer=setTimeout(()=>{if(this.active===session)void this.close();},Math.min(this.options.completionGraceMs??60_000,Math.max(1,session.expiresAt-Date.now())));session.timer.unref();
     }catch(error){
       session.state.state=session.abort.signal.aborted?"expired":"failed";
       session.state.checks[phase]="error";
