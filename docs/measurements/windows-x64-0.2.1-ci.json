@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "platform": "win32",
+  "arch": "x64",
+  "version": "0.2.1",
+  "date": "2026-09-08T06:50:42.593Z",
+  "idleMs": 30000,
+  "runtime": "bundled",
+  "connections": 1,
+  "initializeMs": 37,
+  "coldMs": [
+    573,
+    492,
+    499,
+    490,
+    494
+  ],
+  "samples": [
+    {
+      "phase": "discovery",
+      "WorkingSet64": 4710400,
+      "PrivateMemorySize64": 1323008
+    },
+    {
+      "phase": "idle-cycle-1",
+      "WorkingSet64": 5738496,
+      "PrivateMemorySize64": 1236992
+    },
+    {
+      "phase": "idle-cycle-2",
+      "WorkingSet64": 5820416,
+      "PrivateMemorySize64": 1372160
+    },
+    {
+      "phase": "idle-cycle-3",
+      "WorkingSet64": 5926912,
+      "PrivateMemorySize64": 1568768
+    },
+    {
+      "phase": "idle-cycle-4",
+      "WorkingSet64": 5926912,
+      "PrivateMemorySize64": 1495040
+    },
+    {
+      "phase": "idle-cycle-5",
+      "WorkingSet64": 5922816,
+      "PrivateMemorySize64": 1486848
+    }
+  ],
+  "maximumIdleMiB": 5.65234375,
+  "idleNodeCount": 0,
+  "sourceCommit": "c3ef91be25c59f23e4cd6ab8a44e793a74629161",
+  "workflowRun": "https://github.com/eziwork/naver-mail/actions/runs/34195842259"
+}

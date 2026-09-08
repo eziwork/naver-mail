@@ -18,6 +18,8 @@ https://github.com/eziwork/naver-mail
 
 ## 검증 상태와 한계
 
+2026-09-08 Windows x64·Mac Intel·Apple Silicon의 CI와 사전 배포가 모두 성공했습니다. [플랫폼별 측정값과 실제 검증 범위](https://github.com/eziwork/naver-mail/blob/main/docs/measurements/v0.2.1-ci.md)를 참고하세요.
+
 Windows 로컬에서 TypeScript 검사·40개 단위 테스트, 설치 도우미 테스트, Chromium의 입력/검사/완료 새로고침·끊김 감지·390px 화면·200% 확대를 검사했습니다. 배포 ZIP을 새 폴더에 풀어 동봉 키링 로드와 설정 프로세스 유지·재접속·정리를 검사했습니다.
 
 세 플랫폼 CI는 Windows x64, Mac Intel, Mac Apple Silicon에서 네이티브 빌드, 설치 도우미 테스트, 브라우저 테스트, 배포 패키지 검사, 30초 유휴·메모리·시작 시간을 검사합니다. Mac에서는 부모 프로세스 그룹 종료도 테스트합니다. 결과는 [GitHub Actions](https://github.com/eziwork/naver-mail/actions)에서 확인합니다. CI 성공은 실제 Codex 앱·Safari·사용자 키체인 검증을 대신하지 않습니다.

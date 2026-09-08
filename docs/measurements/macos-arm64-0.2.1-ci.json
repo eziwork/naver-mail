@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "platform": "darwin",
+  "arch": "arm64",
+  "version": "0.2.1",
+  "date": "2026-09-08T06:48:41.277Z",
+  "idleMs": 30000,
+  "runtime": "bundled",
+  "connections": 1,
+  "initializeMs": 11,
+  "coldMs": [
+    533,
+    240,
+    235,
+    236,
+    324
+  ],
+  "samples": [
+    {
+      "phase": "discovery",
+      "WorkingSet64": 2867200
+    },
+    {
+      "phase": "idle-cycle-1",
+      "WorkingSet64": 3407872
+    },
+    {
+      "phase": "idle-cycle-2",
+      "WorkingSet64": 3489792
+    },
+    {
+      "phase": "idle-cycle-3",
+      "WorkingSet64": 3538944
+    },
+    {
+      "phase": "idle-cycle-4",
+      "WorkingSet64": 3538944
+    },
+    {
+      "phase": "idle-cycle-5",
+      "WorkingSet64": 3555328
+    }
+  ],
+  "maximumIdleMiB": 3.390625,
+  "idleNodeCount": 0,
+  "sourceCommit": "c3ef91be25c59f23e4cd6ab8a44e793a74629161",
+  "workflowRun": "https://github.com/eziwork/naver-mail/actions/runs/34195842259"
+}
