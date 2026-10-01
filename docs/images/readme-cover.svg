@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">네이버 메일, 이제 대화로.</title>
+  <desc id="desc">Eziwork의 비공식 네이버 메일 플러그인. 찾기, 정리하기, 확인 후 보내기를 대화로 요청하는 사용 예시입니다.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#092c24"/><stop offset="1" stop-color="#124c38"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1200" height="560" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="560" rx="28" fill="url(#grid)"/>
+  <circle cx="1090" cy="540" r="260" fill="#03c75a" opacity=".07"/>
+  <g font-family="'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif">
+    <rect x="56" y="48" width="36" height="36" rx="10" fill="#03c75a"/>
+    <path d="M65 61H83V74H65Z M65 61L74 68L83 61" fill="none" stroke="#092c24" stroke-width="2" stroke-linejoin="round"/>
+    <text x="104" y="74" fill="#f3fff7" font-size="21" font-weight="700" letter-spacing="2">EZIWORK</text>
+    <text x="1144" y="73" fill="#b1d3c0" font-size="16" text-anchor="end">NAVER MAIL CONNECTOR</text>
+    <text x="56" y="186" fill="#8aeca9" font-size="17" font-weight="700" letter-spacing="2">LESS SEARCHING. MORE DOING.</text>
+    <text x="52" y="265" fill="#f7fff9" font-size="56" font-weight="700" letter-spacing="-3">메일함에서 찾던 일,</text>
+    <text x="52" y="339" fill="#f7fff9" font-size="56" font-weight="700" letter-spacing="-3">이제 대화로.</text>
+    <text x="56" y="390" fill="#c2dbcc" font-size="21">찾기 · 정리하기 · 확인 후 보내기</text>
+    <rect x="56" y="452" width="94" height="36" rx="18" fill="#ffffff" fill-opacity=".09" stroke="#7bb495" stroke-opacity=".3"/>
+    <text x="103" y="476" text-anchor="middle" fill="#d9ecdf" font-size="15">Codex</text>
+    <rect x="162" y="452" width="168" height="36" rx="18" fill="#ffffff" fill-opacity=".09" stroke="#7bb495" stroke-opacity=".3"/>
+    <text x="246" y="476" text-anchor="middle" fill="#d9ecdf" font-size="15">Desktop · Local MCP</text>
+    <rect x="665" y="139" width="480" height="290" rx="20" fill="#061f19" opacity=".25"/>
+    <rect x="653" y="127" width="480" height="290" rx="20" fill="#f5f9f6"/>
+    <circle cx="679" cy="152" r="4" fill="#9bb5a4"/><circle cx="693" cy="152" r="4" fill="#c2d1c6"/><circle cx="707" cy="152" r="4" fill="#dce5df"/>
+    <text x="1107" y="157" text-anchor="end" fill="#5c7465" font-size="13">대화 예시</text>
+    <rect x="760" y="186" width="345" height="58" rx="16" fill="#dbf5e2"/>
+    <text x="782" y="222" fill="#163b26" font-size="20" font-weight="700">최근 받은 메일 10개 보여 줘.</text>
+    <rect x="680" y="266" width="32" height="32" rx="10" fill="#177e48"/>
+    <path d="M689 282L694 287L703 277" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <text x="728" y="289" fill="#163b26" font-size="19" font-weight="700">최근 메일을 확인했어요.</text>
+    <rect x="728" y="310" width="351" height="1" fill="#d8e4dc"/>
+    <text x="728" y="340" fill="#4c6656" font-size="16">날짜</text><text x="815" y="340" fill="#4c6656" font-size="16">보낸 사람</text><text x="966" y="340" fill="#4c6656" font-size="16">제목</text>
+    <rect x="728" y="361" width="50" height="8" rx="4" fill="#d5e2d9"/><rect x="815" y="361" width="94" height="8" rx="4" fill="#d5e2d9"/><rect x="966" y="361" width="112" height="8" rx="4" fill="#d5e2d9"/>
+    <text x="1133" y="480" text-anchor="end" fill="#b1d3c0" font-size="15">Eziwork 제작 · NAVER 비공식 도구</text>
+  </g>
+</svg>
