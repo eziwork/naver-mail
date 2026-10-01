@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="docs/images/readme-cover.svg" alt="Eziwork 네이버 메일 — 메일함에서 찾던 일, 이제 대화로. 찾기, 정리하기, 확인 후 보내기." width="960">
+  <img src="docs/images/readme-cover.svg" alt="이지워크 네이버 메일 — 메일함에서 찾던 일, 이제 대화로. 찾기, 정리하기, 확인 후 보내기." width="960">
 </p>
 
 <h1 align="center">네이버 메일, 이제 대화로.</h1>
 
-<p align="center">찾고 싶은 메일을 말하고, 필요한 내용만 정리하고, 확인한 뒤 보내세요.<br>Codex와 로컬 MCP를 지원하는 데스크톱 Work를 위한 Eziwork 플러그인.</p>
+<p align="center">찾고 싶은 메일을 말하고, 필요한 내용만 정리하고, 확인한 뒤 보내세요.<br>Codex와 로컬 MCP를 지원하는 데스크톱 Work를 위한 이지워크 플러그인.</p>
 
 <p align="center">
   <a href="#바로-시작하기">바로 시작하기</a> ·
@@ -161,4 +161,4 @@ Windows 호스트 런타임·MCP 연결 1개·5회 반복 측정에서 v0.2.1의
 
 ---
 
-<p align="center">Made by <a href="https://github.com/eziwork">Eziwork</a> · 필요한 메일 업무를, 자연스러운 대화로.</p>
+<p align="center"><a href="https://github.com/eziwork">이지워크</a>는 대기업부터 개인까지 함께하는 B2B AX 파트너사이자 교육사입니다.</p>
