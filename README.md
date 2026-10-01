@@ -4,7 +4,7 @@
 
 <h1 align="center">네이버 메일, 이제 대화로.</h1>
 
-<p align="center">찾고 싶은 메일을 말하고, 필요한 내용만 정리하고, 확인한 뒤 보내세요.<br>Codex와 로컬 MCP를 지원하는 데스크톱 Work를 위한 이지워크 플러그인.</p>
+<p align="center">찾고 싶은 메일을 말하고, 필요한 내용만 정리하고, 확인한 뒤 보내세요.<br>Codex와 로컬 MCP를 지원하는 데스크톱 Work를 위한 네이버 메일 플러그인.</p>
 
 <p align="center">
   <a href="#바로-시작하기">바로 시작하기</a> ·
