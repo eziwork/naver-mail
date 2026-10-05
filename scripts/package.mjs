@@ -16,7 +16,7 @@ const repack = process.argv.includes('--repack');
 if (!repack) await rm(staging, {recursive: true, force: true});
 const plugin = join(staging, 'naver-mail');
 await mkdir(plugin, {recursive: true});
-for (const item of ['.codex-plugin','.mcp.json','assets','skills','docs','README.md','SECURITY.md','CHANGELOG.md','RELEASE.md','CONTRIBUTING.md','package.json','package-lock.json']) {
+for (const item of ['.codex-plugin','.claude-plugin','.mcp.json','assets','skills','docs','README.md','SECURITY.md','CHANGELOG.md','RELEASE.md','CONTRIBUTING.md','package.json','package-lock.json']) {
   await cp(join(root, item), join(plugin, item), {recursive: true, dereference: true});
 }
 await mkdir(join(plugin, 'dist'), {recursive: true});
@@ -25,6 +25,14 @@ for (const entry of await readdir(join(root, 'dist'))) {
 }
 await mkdir(join(plugin, 'bin'), {recursive: true});
 const filename = platform === 'win32' ? 'naver-mail-bridge.exe' : 'naver-mail-bridge';
+// Resolve the native executable explicitly for each host in each platform archive.
+const claudeConfig = JSON.parse(await readFile(join(plugin, '.mcp.json'), 'utf8'));
+claudeConfig.mcpServers.naver_mail.command = '${CLAUDE_PLUGIN_ROOT}/bin/' + filename;
+await writeFile(join(plugin, '.mcp.json'), JSON.stringify(claudeConfig, null, 2) + '\n');
+const codexConfigPath = join(plugin, '.codex-plugin', 'mcp.json');
+const codexConfig = JSON.parse(await readFile(codexConfigPath, 'utf8'));
+codexConfig.mcpServers.naver_mail.command = './bin/' + filename;
+await writeFile(codexConfigPath, JSON.stringify(codexConfig, null, 2) + '\n');
 const binary = process.env.NAVER_MAIL_BRIDGE_BINARY ?? join(root, 'bin', filename);
 await cp(binary, join(plugin, 'bin', filename), {dereference: true});
 await chmod(join(plugin, 'bin', filename), 0o755);

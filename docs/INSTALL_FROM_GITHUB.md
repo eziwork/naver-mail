@@ -7,6 +7,8 @@ https://github.com/eziwork/naver-mail
 이 플러그인을 설치해 줘.
 ```
 
+**클로드 코드에서 설치를 요청받았다면 [클로드 코드 설치 절차](CLAUDE_CODE.md)를 따릅니다.** 이 문서의 실행 도우미는 Codex 플러그인을 등록합니다.
+
 ## 설치를 맡은 AI가 따를 절차
 
 이 문서를 읽는 것 자체로 설치되지는 않습니다. 아래 절차로 **일회성 설치 도우미**를 실행해야 합니다. 비밀번호는 설치 중 요청하지 않습니다.
@@ -15,11 +17,11 @@ https://github.com/eziwork/naver-mail
 2. Windows x64, Intel Mac, Apple Silicon 중 실제 컴퓨터에 맞는 대상을 고릅니다. Mac에서는 `sysctl -n hw.optional.arm64`가 1이면 Rosetta 터미널에서도 Apple Silicon입니다.
 3. 해당 Release의 아래 도우미와 같은 이름의 `.sha256` 파일을 받습니다. 버전 부분은 선택한 Release의 버전입니다.
 
-| 대상 | v0.2.1 설치 도우미 |
+| 대상 | v0.3.0 설치 도우미 |
 | --- | --- |
-| Windows x64 | `naver-mail-install-0.2.1-win32-x64.exe` |
-| Intel Mac | `naver-mail-install-0.2.1-darwin-x64` |
-| Apple Silicon Mac | `naver-mail-install-0.2.1-darwin-arm64` |
+| Windows x64 | `naver-mail-install-0.3.0-win32-x64.exe` |
+| Intel Mac | `naver-mail-install-0.3.0-darwin-x64` |
+| Apple Silicon Mac | `naver-mail-install-0.3.0-darwin-arm64` |
 
 4. OS의 SHA-256 도구(Windows `Get-FileHash`, Mac `shasum -a 256`)로 도우미의 해시와 정확한 파일명을 대조합니다. 체크섬은 다운로드 무결성 검사이며 코드서명을 대신하지 않습니다. 검사 전에 실행하지 않습니다. Mac 파일에는 검사 후 실행 권한을 설정합니다.
 5. 다운로드한 도우미를 `--dry-run --json`으로 실행하여 버전·대상·기존 등록 충돌을 확인하고, 이상이 없으면 `--json`으로 실행합니다. 사용자가 터미널을 다룰 필요 없이 AI가 수행합니다. 다운로드 코드를 셸에 바로 연결해 실행하지 않습니다.

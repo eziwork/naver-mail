@@ -2,19 +2,21 @@
 
 [README로 돌아가기](../README.md) · [문제 해결](TROUBLESHOOTING.md)
 
-이 플러그인을 연결하면 내 네이버 메일을 Codex 또는 로컬 MCP를 지원하는 데스크톱 Work에 부탁할 수 있습니다. 네이버 계정 하나를 연결하며, PC를 바꾸면 새 PC에서도 연결해야 합니다.
+이 플러그인을 연결하면 내 네이버 메일을 Codex 앱·CLI, Claude Code 또는 로컬 MCP를 지원하는 데스크톱 Work에 부탁할 수 있습니다. Claude Code 호환 설정은 v0.3.0부터 포함합니다. 네이버 계정 하나를 연결하며, PC를 바꾸면 새 PC에서도 연결해야 합니다.
 
 **설치 → 계정 연결 → 첫 메일 확인** 순서로 진행합니다. 이미 설치했다면 [계정 연결](#네이버-계정-연결하기)부터 시작하세요.
 
 | 먼저 준비해 주세요 | 확인할 내용 |
 | --- | --- |
-| 지원되는 컴퓨터와 앱 | Windows x64 또는 Mac, 로컬 MCP를 실행할 수 있는 데스크톱 앱 |
+| 지원되는 컴퓨터와 앱 | Windows x64 또는 Mac, 로컬 MCP를 실행할 수 있는 지원 앱 또는 CLI |
 | 네이버 계정 | 2단계 인증과 애플리케이션 비밀번호 발급이 가능한 계정 |
 | 네이버 메일 설정 | IMAP/SMTP 사용 허용. 아래에서 차근차근 안내합니다. |
 
-현재 v0.2.1은 미서명 사전 배포판입니다. Mac의 실제 앱 검증과 공증 등 [남은 검증 항목](../RELEASE.md)을 확인하세요.
+현재 v0.3.0은 미서명 사전 배포판입니다. Mac의 실제 앱 검증과 공증 등 [남은 검증 항목](../RELEASE.md)을 확인하세요.
 
 ## 설치하기
+
+**클로드 코드에서는 [클로드 코드 설치 안내](CLAUDE_CODE.md)를 사용하세요.** 아래 일회성 도우미는 Codex용입니다.
 
 처음 사용하는 분은 Codex 또는 로컬 MCP를 지원하는 데스크톱 Work에 아래 두 줄을 그대로 붙여 넣으세요.
 
@@ -61,7 +63,7 @@ https://github.com/eziwork/naver-mail
 | 발송 연결 | 네이버 SMTP 서버에서 발송 인증을 할 수 있는지 |
 | 안전한 저장 | Windows 자격 증명 관리자 또는 macOS 키체인에 저장되는지 |
 
-연결 검사에서는 실제 메일을 보내지 않습니다. 모든 단계가 끝나고 완료가 표시되면 Codex/Work로 돌아옵니다. Mac에서 키체인 접근 요청이 나타나면 요청한 프로그램과 작업을 확인합니다.
+연결 검사에서는 실제 메일을 보내지 않습니다. 모든 단계가 끝나고 완료가 표시되면 사용하던 Codex/Work 또는 Claude Code 대화로 돌아옵니다. Mac에서 키체인 접근 요청이 나타나면 요청한 프로그램과 작업을 확인합니다.
 
 ![가상 계정 연결 완료 화면](images/setup-complete.png)
 
@@ -111,13 +113,13 @@ https://github.com/eziwork/naver-mail
 
 호스트가 GitHub 주소를 직접 설치하지 못하면 아래 수동 절차를 사용하세요.
 
-[0.2.1 다운로드 페이지](https://github.com/eziwork/naver-mail/releases/tag/v0.2.1)를 열고 **Assets**에서 아래 파일을 선택하세요. `.sha256`은 파일 검사값이며 설치 파일이 아닙니다.
+[0.3.0 다운로드 페이지](https://github.com/eziwork/naver-mail/releases/tag/v0.3.0)를 열고 **Assets**에서 아래 파일을 선택하세요. `.sha256`은 파일 검사값이며 설치 파일이 아닙니다.
 
 | 내 컴퓨터 | 받을 파일 | 확인 방법 |
 | --- | --- | --- |
-| 일반적인 64비트 Windows PC | `naver-mail-0.2.1-win32-x64.zip` | 설정 → 시스템 → 정보 → 시스템 종류에서 x64 확인 |
-| M1·M2·M3 등 Apple 칩 Mac | `naver-mail-0.2.1-darwin-arm64.tar.gz` | Apple 메뉴 → 이 Mac에 관하여 → 칩 |
-| Intel Mac | `naver-mail-0.2.1-darwin-x64.tar.gz` | 이 Mac에 관하여 → 프로세서에 Intel 표시 |
+| 일반적인 64비트 Windows PC | `naver-mail-0.3.0-win32-x64.zip` | 설정 → 시스템 → 정보 → 시스템 종류에서 x64 확인 |
+| M1·M2·M3 등 Apple 칩 Mac | `naver-mail-0.3.0-darwin-arm64.tar.gz` | Apple 메뉴 → 이 Mac에 관하여 → 칩 |
+| Intel Mac | `naver-mail-0.3.0-darwin-x64.tar.gz` | 이 Mac에 관하여 → 프로세서에 Intel 표시 |
 
 Windows ARM64의 네이티브 지원은 검증하지 않았습니다. Mac 패키지는 실제 기기 검증과 서명·공증이 남아 있는 시험용입니다. 운영체제가 실행을 차단하면 [해결 안내](TROUBLESHOOTING.md)를 확인하세요.
 

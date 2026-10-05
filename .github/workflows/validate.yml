@@ -28,6 +28,7 @@ jobs:
       - run: npm run build:installer
       - run: npm run prepare:runtime
       - run: npm run smoke
+      - run: npm run test:hosts
       - run: npm run test:setup-lifecycle
       - run: npx playwright install chromium
       - run: npm run test:browser
@@ -39,6 +40,10 @@ jobs:
       - run: npm run package
       - name: Validate extracted release package
         run: node scripts/package-check.mjs
+      - name: Install isolated Claude Code validation CLI
+        run: npm install --prefix .build-claude --no-audit --no-fund @anthropic-ai/claude-code@2.1.289
+      - name: Validate Claude plugin installation and removal
+        run: node scripts/claude-install-test.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

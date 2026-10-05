@@ -1,0 +1,16 @@
+{
+  "name": "naver-mail",
+  "version": "0.3.0",
+  "description": "내 컴퓨터에서 네이버 메일을 조회하고, 내용을 확인한 뒤 발송합니다.",
+  "author": {
+    "name": "Eziwork"
+  },
+  "homepage": "https://github.com/eziwork/naver-mail",
+  "repository": "https://github.com/eziwork/naver-mail",
+  "keywords": [
+    "naver",
+    "mail",
+    "imap",
+    "smtp"
+  ]
+}

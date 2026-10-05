@@ -22,5 +22,5 @@ for(const name of needed) {
 }
 await writeFile('release-upload/SHA256SUMS.txt',sums.join('\n')+'\n');files.push('release-upload/SHA256SUMS.txt');
 const gh=args=>{const r=spawnSync('gh',args,{stdio:'inherit'});if(r.status!==0)throw new Error('GitHub release operation failed');};
-gh(['release','create','v'+version,...files,'--repo','eziwork/naver-mail','--target',process.env.GITHUB_SHA,'--draft','--prerelease','--title','네이버 메일 v'+version+' · 설치 및 Mac 연결 개선','--notes-file','RELEASE.md']);
+gh(['release','create','v'+version,...files,'--repo','eziwork/naver-mail','--target',process.env.GITHUB_SHA,'--draft','--prerelease','--title','네이버 메일 v'+version+' · Codex·Claude Code 호환','--notes-file','RELEASE.md']);
 gh(['release','edit','v'+version,'--repo','eziwork/naver-mail','--draft=false','--prerelease','--latest=false']);

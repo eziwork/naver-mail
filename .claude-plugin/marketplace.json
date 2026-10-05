@@ -1,0 +1,14 @@
+{
+  "name": "eziwork-naver-mail",
+  "description": "이지워크 네이버 메일 플러그인의 로컬 설치 목록",
+  "owner": {
+    "name": "Eziwork"
+  },
+  "plugins": [
+    {
+      "name": "naver-mail",
+      "source": "./",
+      "description": "네이버 메일 조회·정리·확인 후 발송"
+    }
+  ]
+}

@@ -5,11 +5,11 @@ description: Use the local Naver Mail MCP to connect an @naver.com account, list
 
 # Naver Mail
 
-Use the `naver_mail` local MCP server. All mailbox communication happens from the user's computer directly to Naver IMAP/SMTP.
+Use the `naver_mail` local MCP server in Codex or Claude Code. Hosts may prefix tool names; use the registered tools from this plugin. All mailbox communication happens from the user's computer directly to Naver IMAP/SMTP.
 
 ## Connection
 
-After installation, use the registered MCP tools in a new task. Never create an ad hoc setup server through a shell session or keep a terminal command running to preserve setup. If the tools are absent, explain that the app must pick up the installed plugin; try a new task, and only then an app restart if needed. Connecting an account to an already available plugin does not itself require restarting the app.
+After installation, use the registered MCP tools in a new task. Never create an ad hoc setup server through a shell session or keep a terminal command running to preserve setup. If the tools are absent, explain that the host must pick up the installed plugin; start a new Codex task or restart the Claude Code session. Only restart the desktop app if a new task does not load it. Connecting an account to an already available plugin does not itself require restarting the app.
 
 The settings worker runs independently of the MCP conversation. A valid session is reused without extending its original 30-minute deadline. Report `expiresAt` and distinguish `browserOpened` (launcher result) from `pageOpened` (local page was requested). If the user says they have already finished, check `connection_status` before asking them to repeat setup. A completed setup screen remains available briefly; account credentials persist after the screen closes.
 
@@ -18,7 +18,7 @@ The settings worker runs independently of the MCP conversation. A valid session 
 3. Never ask the user to paste an application password, Naver password, or any credential into the conversation.
 4. After the user says setup is complete, call `connection_status` with `verify=true` before mail access.
 
-Show the local setup URL from `open_setup` as a clickable fallback link, even when `browserOpened=true`; successful process launch does not guarantee a visible browser window. The four-step form expires after 30 minutes; open a new form when expired. `connection_status.setup` reports progress. Windows Credential Manager and macOS Keychain retain the existing account across updates. This release supports local desktop sessions; cloud/web Work is outside its scope.
+Show the local setup URL from `open_setup` as a clickable fallback link, even when `browserOpened=true`; successful process launch does not guarantee a visible browser window. The four-step form expires after 30 minutes; open a new form when expired. `connection_status.setup` reports progress. Windows Credential Manager and macOS Keychain retain the existing account across updates. This release targets Codex desktop/CLI, local MCP-capable desktop Work, and Claude Code on Windows x64 and macOS Intel/Apple Silicon. Cloud/web/mobile sessions and WSL/Linux are outside its scope.
 
 ## Reading and search
 
@@ -50,4 +50,4 @@ Report `deliveryStatus=partial` with the accepted and rejected recipients; it is
 - Return only the minimum message metadata and body text needed for the request.
 - Prefer summaries over reproducing long private messages verbatim.
 - Never expose tool tokens, OS-keyring records, debug data, internal identifiers other than mailbox path and IMAP UID, or credential-related errors.
-- Remind the user that selected mail content is supplied to Codex for processing even though the plugin developer's servers are not involved.
+- Remind the user that selected mail content is supplied to the active AI service (OpenAI or Anthropic) for processing even though the plugin developer's servers are not involved.

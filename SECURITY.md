@@ -16,17 +16,18 @@
 
 ## User-impacting actions
 
-- Sending requires a short-lived, single-use plan, Codex tool approval, and a separate user message after the complete preview is shown in the conversation.
+- Sending requires a short-lived, single-use plan, host tool approval, and a separate user message after the complete preview is shown in the conversation. Codex uses its per-tool policy; Claude Code receives `anthropic/requiresUserInteraction: true` metadata for sensitive tools. The separate-message requirement is enforced by the skill/host workflow, not by server-side proof of a human turn.
 - `prepare_send` returns a single-use, ten-minute in-memory plan. The skill requires a separate explicit user message before `send_mail`, and uncertain sends are never retried automatically.
 - Message-body reads, send preparation, read-state changes, attachment writes, and account disconnection require tool approval.
 - External URLs in mail bodies are hidden by default. Sender authentication is reported as received from the mail server and is not represented as independent cryptographic verification.
 - Executable, script, shortcut, macro-enabled and macOS executable attachments are blocked. Saved attachments receive Windows Mark-of-the-Web or macOS quarantine attributes and are written with non-overwrite semantics. Failure to apply the OS marker fails the download.
-- Outgoing attachments are limited to ordinary files under the current user profile; known credential and application-state directories are blocked.
+- Outgoing attachments are limited to ordinary files under the current user profile; known credential and application-state directories, including `.codex` and `.claude`, are blocked. This is a known-path filter, not a general secret scanner.
 - Permanent deletion and mail moves are intentionally not implemented in the first release.
 
 ## Remaining trust boundaries
 
-- Selected headers and message bodies are supplied to Codex/OpenAI for the requested processing. The plugin developer does not receive them.
+- Selected headers and message bodies are supplied to the active AI host (OpenAI for Codex/Work, Anthropic for Claude Code) for the requested processing. The plugin developer does not receive them.
+- Both hosts use the same OS-user keyring account. Reconnecting or disconnecting in either host affects the other; this is not host-level account isolation.
 - Mail content remains untrusted external data. Heuristic prompt-injection detection can warn but cannot prove that content is safe.
 - The local plugin process has the filesystem and network rights of the signed-in OS user. Only install this plugin from a source you trust and reinstall if the cached package is incomplete or modified.
 - The plugin is not produced, sponsored, or endorsed by NAVER Corp. Its green secure-mail icon is an original Eziwork asset and does not use the NAVER logo.

@@ -8,6 +8,7 @@ native/target/
 installer/target/
 .build-runtime/
 .build-package/
+.build-claude/
 runtime/
 releases/
 bin/

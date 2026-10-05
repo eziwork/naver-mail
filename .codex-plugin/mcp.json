@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "naver_mail": {
+      "command": "./bin/naver-mail-bridge",
+      "args": [],
+      "cwd": ".",
+      "enabled": true,
+      "default_tools_approval_mode": "approve",
+      "tools": {
+        "disconnect_account": {
+          "approval_mode": "prompt"
+        },
+        "get_mail": {
+          "approval_mode": "prompt"
+        },
+        "get_mail_batch": {
+          "approval_mode": "prompt"
+        },
+        "prepare_send": {
+          "approval_mode": "prompt"
+        },
+        "save_attachment": {
+          "approval_mode": "prompt"
+        },
+        "set_read_status": {
+          "approval_mode": "prompt"
+        },
+        "send_mail": {
+          "approval_mode": "prompt"
+        }
+      },
+      "env_vars": [
+        "CODEX_MCP_NODE_PATH",
+        "PATH",
+        "USERPROFILE",
+        "LOCALAPPDATA",
+        "APPDATA",
+        "HOME",
+        "TMPDIR",
+        "TEMP",
+        "TMP",
+        "SYSTEMROOT",
+        "WINDIR"
+      ],
+      "startup_timeout_sec": 20,
+      "tool_timeout_sec": 120
+    }
+  }
+}

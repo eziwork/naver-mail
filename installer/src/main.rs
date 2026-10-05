@@ -680,7 +680,7 @@ fn run(dry: bool) -> Result<Value> {
         None
     };
     let client = Client::builder()
-        .user_agent("eziwork-naver-mail-installer/0.2.1")
+        .user_agent("eziwork-naver-mail-installer/0.3.0")
         .timeout(Duration::from_secs(180))
         .https_only(true)
         .build()

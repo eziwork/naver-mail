@@ -223,10 +223,11 @@ function assertSafeOutgoingAttachmentPath(path: string): void {
     `${sep}.aws${sep}`,
     `${sep}.azure${sep}`,
     `${sep}.codex${sep}`,
+    `${sep}.claude${sep}`,
     `${sep}.config${sep}`,
     `${sep}.gnupg${sep}`
   ];
-  const sensitiveNames = new Set([".env", ".netrc", ".npmrc", ".pypirc", ".git-credentials", "id_rsa", "id_ed25519", "credentials", "credentials.json"]);
+  const sensitiveNames = new Set([".env", ".netrc", ".npmrc", ".pypirc", ".git-credentials", ".claude.json", ".credentials.json", "id_rsa", "id_ed25519", "credentials", "credentials.json"]);
   if (sensitiveSegments.some((segment) => normalized.includes(segment)) || sensitiveNames.has(basename(path).toLowerCase())) {
     throw new UserFacingError(
       "SENSITIVE_ATTACHMENT_BLOCKED",
