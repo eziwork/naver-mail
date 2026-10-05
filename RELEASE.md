@@ -1,12 +1,12 @@
-# v0.3.0 배포 준비 — Codex·Claude Code 호환
+# v0.3.0 사전 배포 — Codex·Claude Code 호환
 
-아직 공개 배포하지 않은 변경입니다. Windows x64·Mac Intel·Apple Silicon 패키지에 Codex와 Claude Code의 설정을 함께 넣습니다. 기존 v0.2.1 Release에는 이 호환 설정이 없습니다. [클로드 코드 설치 안내](docs/CLAUDE_CODE.md)
+Windows x64·Mac Intel·Apple Silicon 패키지에 Codex와 Claude Code의 설정을 함께 넣습니다. 기존 v0.2.1 Release에는 이 호환 설정이 없습니다. [클로드 코드 설치 안내](https://github.com/eziwork/naver-mail/blob/v0.3.0/docs/CLAUDE_CODE.md)
 
 - 기존 Rust·Node 메일 엔진, 12개 도구, 로컬 연결 화면과 OS 보안 저장소를 공유합니다.
 - Claude에는 로컬 마켓플레이스로 완성 패키지를 설치합니다. Codex 일회성 설치 도우미의 등록 방식은 유지합니다.
 - 도구별 명시적 승인과 대화에서 전체 내용 검토 후 별도 메시지로 발송 확인하는 지침을 함께 사용합니다.
 
-검증 결과는 이 PR의 CI에서 확인합니다. 로컬 Windows에서 타입 검사·43개 테스트·TypeScript 빌드 및 Claude Code 2.1.289 명세 검사를 통과했습니다. Windows·Mac Intel·Apple Silicon CI에 두 호스트의 실제 중계 실행과 압축 해제 후 검사를 추가했습니다. CI 통과와 실제 사용자 계정의 앱·키체인·메일 발송 검증은 구분합니다.
+Windows x64·Mac Intel·Apple Silicon의 [v0.3.0 호환 CI](https://github.com/eziwork/naver-mail/actions/runs/37360403366)가 모두 통과했습니다. 배포 워크플로에서 같은 검사를 다시 수행한 뒤 완성 패키지를 공개합니다. 로컬 Windows에서 타입 검사·43개 테스트·TypeScript 빌드 및 Claude Code 2.1.289 명세 검사를 통과했습니다. Windows·Mac Intel·Apple Silicon CI에 두 호스트의 실제 중계 실행과 압축 해제 후 검사를 추가했습니다. CI 통과와 실제 사용자 계정의 앱·키체인·메일 발송 검증은 구분합니다.
 
 실제 사용자 계정으로 Claude Code에서 연결·조회·승인 UI를 확인하는 작업, Mac 실제 앱·Safari·키체인 허용/거절, 코드서명·공증은 아직 완료하지 않았습니다. 실제 메일은 발송하지 않았습니다.
 
