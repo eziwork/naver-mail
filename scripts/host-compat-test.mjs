@@ -1,6 +1,6 @@
 // Exercise real stdio binaries from each host's manifest, without mail or keyring access.
 import assert from 'node:assert/strict';
-import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { readFile, mkdtemp, rmdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -36,4 +36,4 @@ try {
       console.log(JSON.stringify({host, platform: process.platform, tools: tools.length, approvalMetadata: true, unrelatedCwd: host === 'claude'}));
     } finally { await client.close(); }
   }
-} finally { await rm(unrelatedCwd); }
+} finally { await rmdir(unrelatedCwd); }
