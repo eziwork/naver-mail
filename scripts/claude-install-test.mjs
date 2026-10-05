@@ -32,5 +32,6 @@ try {
   console.log(JSON.stringify({claudeVersion: pkg.version, install: true, skillAndMcpInventory: details, uninstall: true}));
 } finally {
   if (!resolve(profile).startsWith(resolve(tmpdir()) + sep) || !profile.split(sep).at(-1).startsWith('naver-claude-test-')) throw Error('Unsafe cleanup');
-  await rm(profile, {recursive: true, force: true});
+  // Windows may briefly retain handles after Claude exits or its cache is removed.
+  await rm(profile, {recursive: true, force: true, maxRetries: 10, retryDelay: 500});
 }

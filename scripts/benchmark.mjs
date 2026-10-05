@@ -10,13 +10,14 @@ import { performance } from 'node:perf_hooks';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
+const { version } = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
 const testRoot = await mkdtemp(join(tmpdir(), 'naver-mail-benchmark-'));
 const idleMs = process.argv.includes('--real-idle') ? 30_000 : 1_000;
 const env = {...process.env, NAVER_MAIL_TEST_ROOT: testRoot, NAVER_MAIL_TEST_IDLE_MS: String(idleMs)};
 if (process.argv.includes('--bundled')) delete env.CODEX_MCP_NODE_PATH;
 else env.CODEX_MCP_NODE_PATH = process.execPath;
 const transport = new StdioClientTransport({command: join(root, 'bin', 'naver-mail-bridge'), args: [], cwd: root, stderr: 'pipe', env});
-const client = new Client({name: 'benchmark', version: '0.2.1'});
+const client = new Client({name: 'benchmark', version});
 const alive = pid => {try {process.kill(pid, 0); return true;} catch {return false;}};
 const workers = new Set();
 function memory(pid) {
@@ -44,7 +45,7 @@ try {
     assert.equal(alive(worker.pid), false);
     samples.push({phase: `idle-cycle-${cycle + 1}`, ...memory(transport.pid)});
   }
-  const report = {passed: true, platform: process.platform, arch: process.arch, version: '0.2.1', date: new Date().toISOString(), idleMs, runtime: process.argv.includes('--bundled') ? 'bundled' : 'host', connections: 1, initializeMs, coldMs, samples, maximumIdleMiB: Math.max(...samples.map(s => s.WorkingSet64)) / 1024 ** 2, idleNodeCount: 0};
+  const report = {passed: true, platform: process.platform, arch: process.arch, version, date: new Date().toISOString(), idleMs, runtime: process.argv.includes('--bundled') ? 'bundled' : 'host', connections: 1, initializeMs, coldMs, samples, maximumIdleMiB: Math.max(...samples.map(s => s.WorkingSet64)) / 1024 ** 2, idleNodeCount: 0};
   report.passed=report.maximumIdleMiB<=20 && Math.max(...coldMs)<=3000;
   const output = process.env.NAVER_MAIL_BENCHMARK_OUTPUT;
   if (output) await writeFile(output, JSON.stringify(report, null, 2) + '\n');
