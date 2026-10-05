@@ -1,6 +1,6 @@
 {
   "name": "naver-mail",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Local Naver Mail connector with an on-demand worker for Windows and macOS",
   "author": {
     "name": "Eziwork"
@@ -35,7 +35,7 @@
     "logo": "./assets/logo.png",
     "logoDark": "./assets/logo.png"
   },
-  "mcpServers": "./.mcp.json",
+  "mcpServers": "./.codex-plugin/mcp.json",
   "homepage": "https://github.com/eziwork/naver-mail",
   "repository": "https://github.com/eziwork/naver-mail"
 }

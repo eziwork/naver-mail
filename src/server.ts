@@ -143,6 +143,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "disconnect_account",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 연결 해제",
       description: "운영체제 보안 저장소에서 네이버 메일 연결 정보를 삭제합니다.",
       inputSchema: {
@@ -210,6 +211,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "get_mail",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 본문 조회",
       description:
         "메일 본문을 읽음 처리하지 않는 IMAP PEEK 방식으로 조회합니다. HTML은 실행하지 않고 안전한 일반 텍스트로 변환하며 외부 이미지도 불러오지 않습니다.",
@@ -231,6 +233,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "get_mail_batch",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 본문 묶음 조회",
       description:
         "search_mail로 선택한 메일을 최대 10건까지 한 번의 승인으로 조회합니다. 외부 링크는 기본적으로 숨기고, 발신 인증 결과와 프롬프트 인젝션 위험 신호를 함께 반환합니다.",
@@ -252,6 +255,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "save_attachment",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 첨부파일 저장",
       description:
         "get_mail 결과의 첨부파일 part를 사용자 다운로드 폴더 아래 Naver Mail Attachments 폴더에 안전한 파일명으로 저장합니다.",
@@ -273,6 +277,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "set_read_status",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 읽음 상태 변경",
       description: "사용자가 명시적으로 요청한 메일의 읽음 또는 안 읽음 상태를 네이버 서버에 반영합니다.",
       inputSchema: {
@@ -293,6 +298,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "prepare_send",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 발송 미리보기 준비",
       description:
         "메일을 발송하지 않고 수신자, 제목, 본문과 첨부파일을 검증해 10분짜리 발송 계획을 만듭니다. 전체 미리보기를 대화에 표시한 뒤 새 사용자 메시지의 명시적 발송 확인이 필요합니다.",
@@ -335,6 +341,7 @@ export function createNaverMailServer(sharedRuntime?: NaverMailRuntime): NaverMa
   server.registerTool(
     "send_mail",
     {
+      _meta: { "anthropic/requiresUserInteraction": true },
       title: "네이버 메일 실제 발송",
       description:
         "prepare_send의 전체 미리보기를 본 사용자가 새 메시지에서 명시적으로 발송을 확인한 경우에만 planId로 SMTP 발송합니다. 발송은 취소할 수 없습니다.",

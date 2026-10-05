@@ -8,7 +8,9 @@
 
 ```text
 .codex-plugin/plugin.json   플러그인 식별·목록 표시 정보
-.mcp.json                  로컬 Rust 중계 실행·도구 승인 설정
+.codex-plugin/mcp.json     Codex Rust 중계 실행·도구 승인 설정
+.claude-plugin/            Claude 플러그인 및 로컬 마켓플레이스 명세
+.mcp.json                  Claude Rust 중계 실행 설정
 skills/naver-mail/         호스트 AI가 따라야 하는 메일 작업 지침
 src/                      TypeScript 메일·설정 화면·공유 작업 프로세스
 native/                   Rust MCP 중계와 Cargo.lock
@@ -81,7 +83,7 @@ npm run smoke
 npm run package
 ```
 
-결과는 `releases/naver-mail-0.2.1-<platform>-<arch>.zip` 또는 `.tar.gz`와 `.sha256`입니다. 별도의 `npm run build:installer`는 실행 도우미와 체크섬을 만듭니다. 패키지에는 다음이 들어 있습니다.
+결과는 `releases/naver-mail-0.3.0-<platform>-<arch>.zip` 또는 `.tar.gz`와 `.sha256`입니다. 별도의 `npm run build:installer`는 실행 도우미와 체크섬을 만듭니다. 패키지에는 다음이 들어 있습니다.
 
 - 플러그인 manifest, MCP 설정, 스킬, 화면 자산, 사용자·개발 문서
 - 컴파일된 Node 작업 코드와 생성한 도구 목록

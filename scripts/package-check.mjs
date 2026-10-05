@@ -17,6 +17,7 @@ try {
   const plugin=join(temp,'naver-mail');
   const catalog=JSON.parse(await readFile(join(plugin,'dist/tool-catalog.json'),'utf8'));assert.equal(catalog.result.tools.length,12);
   const build=JSON.parse(await readFile(join(plugin,'BUILD.json'),'utf8'));assert.equal(build.version,version);
+  run(process.execPath,['scripts/host-compat-test.mjs',plugin]);
   run(process.execPath,['scripts/setup-lifecycle-test.mjs'],{NAVER_MAIL_PACKAGE_ROOT:plugin});
   const node=join(plugin,'runtime',`${process.platform}-${process.arch}`,...(process.platform==='win32'?['node.exe']:['bin','node']));
   run(node,['--input-type=module','-e',`const {AsyncEntry}=await import(${JSON.stringify(pathToFileURL(join(plugin,'node_modules/@napi-rs/keyring/index.js')).href)});if(typeof AsyncEntry!=='function')throw Error('keyring missing');`]);

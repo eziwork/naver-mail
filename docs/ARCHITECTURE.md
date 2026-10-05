@@ -10,7 +10,7 @@
 
 ```mermaid
 flowchart LR
-    U[사용자 요청과 발송 확인] --> H[Codex / 로컬 데스크톱 Work]
+    U[사용자 요청과 발송 확인] --> H[Codex 앱·CLI / Claude Code / 로컬 데스크톱 Work]
     H -->|MCP · 표준 입출력| B[작은 Rust 중계]
     B -->|필요할 때 시작 · 인증된 로컬 IPC| W[공유 Node 작업 프로세스]
     W <--> K[운영체제 보안 저장소]
@@ -27,7 +27,7 @@ Eziwork 운영 서버는 이 경로에 없습니다. 다만 도구 결과에 담
 
 | 구성 | 역할 | 코드 |
 | --- | --- | --- |
-| 플러그인 명세 | 이름·설명·아이콘·스킬·MCP 실행 설정 | [manifest](../.codex-plugin/plugin.json), [.mcp.json](../.mcp.json) |
+| 플러그인 명세 | 이름·설명·아이콘·스킬·MCP 실행 설정 | [Codex](../.codex-plugin/plugin.json) · [Codex MCP](../.codex-plugin/mcp.json) · [Claude Code](../.claude-plugin/plugin.json) · [Claude MCP](../.mcp.json) |
 | 사용 지침 | 메일 선택·불신 데이터 처리·별도 발송 확인 | [SKILL.md](../skills/naver-mail/SKILL.md) |
 | Rust 중계 | MCP 초기화·목록·ping, Node 시작·인증·요청 전달 | [main.rs](../native/src/main.rs) |
 | 설치 도우미 | 공식 Release 선택·검증·설치·CLI 등록·실패 복구 후 종료 | [installer/main.rs](../installer/src/main.rs) |
@@ -42,7 +42,7 @@ Eziwork 운영 서버는 이 경로에 없습니다. 다만 도구 결과에 담
 
 ## MCP 중계와 도구 목록
 
-Rust는 공식 `rmcp` SDK, Node는 공식 TypeScript MCP SDK를 사용합니다. 호스트 앱은 `.mcp.json`의 상대 실행 경로로 Rust 중계를 시작합니다. Windows는 `.exe`, macOS는 해당 아키텍처의 실행 파일을 패키지에 제공합니다.
+Rust는 공식 `rmcp` SDK, Node는 공식 TypeScript MCP SDK를 사용합니다. Codex는 명세에서 참조한 `.codex-plugin/mcp.json`을 사용하고, Claude Code는 루트 `.mcp.json`의 `${CLAUDE_PLUGIN_ROOT}`를 설치 경로로 치환해 Rust 중계를 시작합니다. Claude의 작업 폴더가 플러그인 밖이어도 중계는 실행 파일 위치로 자원을 찾습니다. Windows는 `.exe`, macOS는 해당 아키텍처의 실행 파일을 패키지에 제공합니다.
 
 `initialize`, `tools/list`, `ping`은 Rust에서 끝납니다. 이때 Node를 띄우거나 네이버에 접속하지 않습니다. 반면 `connection_status`를 포함한 실제 `tools/call`은 Node를 시작할 수 있습니다. `connection_status(verify:false)`는 보안 저장소만 확인하고, `verify:true`는 네이버까지 인증합니다.
 

@@ -1,8 +1,8 @@
 {
   "name": "@eziwork/naver-mail-codex-plugin",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
-  "description": "Local-first Naver Mail MCP server for Codex",
+  "description": "Local Naver Mail MCP server for Codex and Claude Code",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -22,7 +22,8 @@
     "package": "node ./scripts/package.mjs",
     "build:installer": "node scripts/build-installer.mjs",
     "test:setup-lifecycle": "node scripts/setup-lifecycle-test.mjs",
-    "test:browser": "node scripts/setup-browser-test.mjs"
+    "test:browser": "node scripts/setup-browser-test.mjs",
+    "test:hosts": "node scripts/host-compat-test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
