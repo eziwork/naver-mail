@@ -48,3 +48,10 @@ test("blocks outgoing attachments from application and credential directories", 
   );
 });
 
+test("blocks Claude state and credentials while allowing ordinary documents", () => {
+  for (const parts of [[".claude", "projects", "conversation.jsonl"], [".claude.json"], ["Documents", ".credentials.json"]]) {
+    assert.throws(() => testing.assertSafeOutgoingAttachmentPath(join(homedir(), ...parts)), /자격 증명이나 애플리케이션 설정/u);
+  }
+  assert.doesNotThrow(() => testing.assertSafeOutgoingAttachmentPath(join(homedir(), "Documents", "meeting.pdf")));
+});
+
